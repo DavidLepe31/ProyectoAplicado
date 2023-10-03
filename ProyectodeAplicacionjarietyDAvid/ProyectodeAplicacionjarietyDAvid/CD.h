@@ -9,10 +9,11 @@ public:
 	int final;
 	string nombre;
 	string artista;
-	int duracion;
+	string duracion;
+	int duracionS;
 	CD() {
 		nombre = "jnombre";
-		duracion = 0;
+		duracion = " ";
 		artista = "juan";
 		inicio = 0;
 		final = 0;

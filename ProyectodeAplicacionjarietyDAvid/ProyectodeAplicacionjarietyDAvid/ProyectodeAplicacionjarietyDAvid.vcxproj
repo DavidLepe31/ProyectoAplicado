@@ -129,11 +129,15 @@
   <ItemGroup>
     <ClCompile Include="adminCD.cpp" />
     <ClCompile Include="CD.cpp" />
+    <ClCompile Include="cola.cpp" />
+    <ClCompile Include="mostrar.cpp" />
     <ClCompile Include="ProyectodeAplicacionjarietyDAvid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="adminCD.h" />
     <ClInclude Include="CD.h" />
+    <ClInclude Include="cola.h" />
+    <ClInclude Include="mostrar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

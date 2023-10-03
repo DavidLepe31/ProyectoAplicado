@@ -21,9 +21,27 @@
     <ClCompile Include="CD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="adminCD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mostrar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cola.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="adminCD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mostrar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cola.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
