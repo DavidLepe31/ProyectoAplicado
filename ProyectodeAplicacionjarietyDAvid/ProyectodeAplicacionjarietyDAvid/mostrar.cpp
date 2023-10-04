@@ -1,6 +1,7 @@
 #include "mostrar.h"
 string rellenador;
-
+bool play=true;
+int x = 0;
 void mostrar::rellenado(string h) {
 	rellenador = h;
 
@@ -10,7 +11,7 @@ void mostrar::rellenado(string h) {
 void mostrar::mostrarCD() {
 	//creando objeto igual al que tenemos en main
 	adminCD* vs = new adminCD();
-	vs->llenarCDS(rellenador);
+	vs->ArchivosL(rellenador);//cambiar por archivol cuando ya funcione
 	//imprimiendo el CD
 	for (int i = 0; i < vs->cdscount; i++) {
 		cout << i<<" " << vs->discos[i]->nombreDelCD << endl;
@@ -21,9 +22,9 @@ void mostrar::mostrarCD() {
 void mostrar::mostrarCanciones(int CDselect) {
 	//creando objeto igual al que tenemos en main
 	adminCD* vs1 = new adminCD();
-	vs1->llenarCDS(rellenador);
+	vs1->ArchivosL(rellenador);
 	//dando un disco a seleccionar
-	cout << vs1->discos[0]->nombreDelCD<<endl;
+	cout << vs1->discos[CDselect]->nombreDelCD<<endl;
 	//imprimiendo las canciones
 	for (int i = vs1->discos[CDselect]->inicio; i < vs1->discos[CDselect]->final; i++) {
 		cout << i<<" " << vs1->canciones[i]->nombre << endl;
@@ -34,50 +35,68 @@ void mostrar::mostrarCanciones(int CDselect) {
 void mostrar::agregarCancion() {
 	//creando objeto igual al que tenemos en main
 	adminCD* vs2 = new adminCD();
-	vs2->llenarCDS(rellenador);
+	vs2->ArchivosL(rellenador);
 	int x = 0;
 	int z = 0;
 	CD* prueba2 = new CD();
-	cout << "ingrese el CD que desea mostrar" << endl;
+	cout << "ingrese el numero del CD que desea mostrar" << endl;
 	mostrarCD();
 	cin >> x;
-	cout << "ingrese la cancion que desea agreagar a la cola" << endl;
 	mostrarCanciones(x);
+	cout << "ingrese el numero de la cancion que desea agreagar a la cola" << endl;
+
 	cin >> z;
 	prueba2->nombre=vs2->canciones[z]->nombre;
 	prueba2->artista = vs2->canciones[z]->artista;
 	prueba2->duracion = vs2->canciones[z]->duracion;
 	prueba2->duracionS = vs2->canciones[z]->duracionS;
-	listaReproduccion.push_back(prueba2);
+	listaReproduccion.insert(listaReproduccion.begin(), prueba2);
 }
 
 void mostrar::chowlista(vector<CD*>& orden, int r) {
 	switch (r)
 	{
 	case 1:
+		//ciclo de impresion de la lista
 		for (int i = 0; i < orden.size(); i++)
 		{
-			cout << i << " " << orden[i]->nombre << endl;
+			cout << i << " " << "Nombre"<<orden[i]->nombre << endl;
 		}
 		
 		break;
 	case 2:
 		for (int i = 0; i < orden.size(); i++)
 		{
-			cout << i << " " << orden[i]->nombre << endl;
+			cout << i << " "<<"Nombre" << orden[i]->nombre << endl;
+			cout << " " << endl;
+
 		}
 		break;
 	case 3:
 		for (int i = 0; i < orden.size(); i++)
 		{
-			cout << i << " " << orden[i]->artista << endl;
+			cout << i << " " <<"Nombre"<< orden[i]->nombre << endl;
+			cout <<"artista" << " " << orden[i]->artista << endl;
+			cout << " " << endl;
+
 		}
 		break;
 	case 4:
 		for (int i = 0; i < orden.size(); i++)
 		{
-			cout << i << " " << orden[i]->duracion << endl;
+			cout << i << " " <<"Nombre"<< orden[i]->nombre << endl;
+			cout <<"duracion" << " " << orden[i]->duracion << endl;
+			cout << " " << endl;
 		}
+		break;
+	case 5:
+		cout << "la cancion actual es: "<<endl;
+		int j = orden.size();
+		cout << "CD: " << orden[j - 1]->nombreDelCD << endl;
+		cout << "Cancnion: "<<orden[j - 1]->nombre << endl;
+		cout << "Artista: " << orden[j - 1]->artista << endl;
+		cout << "Duracion: " << orden[j - 1]->duracion << endl;
+		x++;
 		break;
 	}
 }
@@ -139,7 +158,7 @@ void mostrar::ordenar(int sele) {
 					c++;
 				}
 			}
-			chowlista(porartista, 2);
+			chowlista(porartista, 3);
 			break;
 	case 4:
 		for (int i = 0; i < listaReproduccion.size(); i++)
@@ -160,11 +179,84 @@ void mostrar::ordenar(int sele) {
 				c++;
 			}
 		}
-		chowlista(portiempo, 2);
+		chowlista(portiempo, 4);
 		break;
 	}
 
 }
 
+
+//mostrar cancion actual
+void mostrar::reproducirN() {
+	//validando si hay una cancion en reproduccion o no
+	if (x == 0 || x == listaReproduccion.size() + 1) {
+		cout << "Reproducion en pausa" << endl;
+		
+	}
+	//obteniendo tamaño actual de la lista
+	int tama = listaReproduccion.size();
+	//insertando el ultimo valor al inicio de la cola
+	listaReproduccion.insert(listaReproduccion.begin(), listaReproduccion[tama]);
+	//borrando el ultimo registro
+	listaReproduccion.erase(listaReproduccion.end() - 1);
+	chowlista(listaReproduccion, 5);
+
+	
+}
+void mostrar::ordenPA(int permenente) {
+	switch (permenente)
+	{
+	case 1:
+		ordenar(2);
+		for (int i = 0; i < pornombre.size(); i++) {
+			listaReproduccion[i] = pornombre[i];
+	}
+		chowlista(listaReproduccion, 5);
+		break;
+	case 2:
+		ordenar(3);
+		for (int i = 0; i < porartista.size(); i++) {
+			listaReproduccion[i] = porartista[i];
+		}
+		chowlista(listaReproduccion, 5);
+		break;
+	case 3:
+		ordenar(4);
+		for (int i = 0; i < portiempo.size(); i++) {
+			listaReproduccion[i] = portiempo[i];
+		}
+		chowlista(listaReproduccion, 5);
+		break;
+	}
+}
+
+void mostrar::ordenPD(int permenente) {
+	switch (permenente)
+	{
+	case 1:
+		ordenar(2);
+		for (int i = 0; i < pornombre.size(); i++) {
+			listaReproduccion[i] = pornombre[(pornombre.size()-1)-i];
+		}
+		chowlista(listaReproduccion, 5);
+		break;
+	case 2:
+		ordenar(3);
+		for (int i = 0; i < porartista.size(); i++) {
+			listaReproduccion[i] = porartista[(porartista.size() - 1) - i];
+
+		}
+		chowlista(listaReproduccion, 5);
+		break;
+	case 3:
+		ordenar(4);
+		for (int i = 0; i < portiempo.size(); i++) {
+			listaReproduccion[i] = portiempo[(portiempo.size() - 1) - i];
+
+		}
+		chowlista(listaReproduccion, 5);
+		break;
+	}
+}
 
 

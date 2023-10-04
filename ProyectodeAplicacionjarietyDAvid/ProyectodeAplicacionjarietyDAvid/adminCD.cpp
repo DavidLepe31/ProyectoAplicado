@@ -2,24 +2,33 @@
 void adminCD::ArchivosL(string carpeta) {
 	struct dirent* d;
 	DIR* dr;
-	dr = opendir("c:\\flippy");
+	int count4=0;
+	dr = opendir("C:\\Users\\dalco\\OneDrive\\Escritorio\\ProyectoAplicado\\pruebas1");
 
 	if (dr != NULL)
 	{
-		cout << "List of Files and Folders:-\n";
-		while ((d = readdir(dr)) != NULL)
-			cout << d->d_name << endl;
+		
+		while ((d = readdir(dr)) != NULL) {
+			if (count4 != 0 && count4 != 1) {
+				llenarCDS(carpeta, d->d_name);
+			}
+			count4++;
+		}
+
 		closedir(dr);
 	}
 	else
 		cout << "\nError Occurred!";
 	cout << endl;
 }
-void adminCD::llenarCDS(string adress) {
-	
+void adminCD::llenarCDS(string adress,string nombre) {
+	//asignando direccion de archivo
+	string archivotxt;
+	archivotxt = adress + "\\" + nombre;
+
 	//abriendo el archivo
-	ifstream file(adress);
-	string album="hola";//pendiente de implementear codigo que extraiga el nombre
+	ifstream file(archivotxt);
+	string album=nombre;//pendiente de implementear codigo que extraiga el nombre
 	string strline = "";
 	
 	CD* prueba1 = new CD();

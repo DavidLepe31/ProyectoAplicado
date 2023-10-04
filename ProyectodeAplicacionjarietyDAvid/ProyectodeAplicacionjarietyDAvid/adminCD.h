@@ -18,8 +18,7 @@ public:
 
 	string CDNAME;
 	void ArchivosL(string carpeta);
-	void llenarCDS(string adress);
-	void borrarcds();
+	void llenarCDS(string adress, string nombre);
 	//creando vector para almacenar los objetos
 	
 

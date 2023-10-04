@@ -22,6 +22,10 @@ class mostrar
 		void mostrarCanciones(int cdselect);
 		void ordenar(int sele);
 		void rellenado(string relleno);
+		void reproducirN();
+		void ordenPA(int permanete);
+		void ordenPD(int permanete);
+
 		mostrar() {
 			
 		}
