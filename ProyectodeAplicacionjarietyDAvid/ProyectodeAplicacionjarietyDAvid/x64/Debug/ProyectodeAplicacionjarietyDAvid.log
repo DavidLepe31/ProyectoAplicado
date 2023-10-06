@@ -1,6 +1,4 @@
-﻿  ProyectodeAplicacionjarietyDAvid.cpp
-  mostrar.cpp
-C:\Users\dalco\OneDrive\Escritorio\ProyectoAplicado\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\mostrar.cpp(93,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\dalco\OneDrive\Escritorio\ProyectoAplicado\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\mostrar.cpp(197,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
-  ProyectodeAplicacionjarietyDAvid.vcxproj -> C:\Users\dalco\OneDrive\Escritorio\ProyectoAplicado\ProyectodeAplicacionjarietyDAvid\x64\Debug\ProyectodeAplicacionjarietyDAvid.exe
+﻿  mostrar.cpp
+C:\tmppruebas\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\mostrar.cpp(123,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\tmppruebas\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\mostrar.cpp(223,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  ProyectodeAplicacionjarietyDAvid.vcxproj -> C:\tmppruebas\ProyectodeAplicacionjarietyDAvid\x64\Debug\ProyectodeAplicacionjarietyDAvid.exe

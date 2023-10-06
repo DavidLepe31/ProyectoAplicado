@@ -7,6 +7,12 @@
 #include<vector>
 #include <algorithm>
 string adres;
+vector<CD*> canciones;
+vector<ALBUM*> discos;
+vector<string>lerrores;
+vector<CD*> lReproduccion;
+int *cdscount;
+
 
 using namespace std;
 
@@ -22,157 +28,196 @@ int main()
 
     while (bande0) {
         mostrar* operador = new mostrar();
+        adminCD* vs = new adminCD();
         cout << "ingrese la carpeta que desea respaldar" << endl;
         cin >> adres;
-        bande1 = true;
-        system("cls");
-        while (bande1) {
+        if (adres.empty() || adres.size()<4)
+        {
+            cout << "No ha ingresado una carpeta a respaldar" << endl;
+        }
+        else
+        {
+            vs->ArchivosL(adres, lerrores, canciones, discos,cdscount);
+           
+           
+           
+            bande0 = false;
+            bande1 = true;
             system("cls");
-            cout << "ingrese el numero del a opcion que desea seleccionar" << endl;
-            cout << "1. reiniciar archivos." << endl;
-            cout << "2. reproductor de canciones." << endl;
-            cin >> x0;
-            switch (x0) {
-            case 1:
+            while (bande1) {
                 system("cls");
-                bande1 = false;
-                break;
-            case 2:
-                while (bande2)
+                cout << "ingrese el numero del a opcion que desea seleccionar" << endl;
+                cout << "1. Reiniciar archivos." << endl;
+                cout << "2. Reproductor de canciones." << endl;
+                cout << "3. Errores en carga de respaldos." << endl;
+                cout << "4. Salir." << endl;
+                cin >> x0;
+                if (x0 > 0 && x0 < 5)
                 {
-                    system("cls");
-                    cout << "ingrese el numero de la opcion que desaea seleccionar" << endl;
-                    cout << "1. agregar cancion" << endl;
-                    cout << "2. ver lista de reproduccion" << endl;
-                    cout << "3. reproducion actual" << endl;
-                    cout << "4. reproducir siguiente" << endl;
-                    cout << "5. ordenar" << endl;
-                    cout << "6. salir" << endl;
-                    cin >> x1;
-                    switch (x1) {
+                    switch (x0) {
                     case 1:
-                        bande3 = true;
-                        while (bande3) {
-                            operador->agregarCancion();
-                            cout << "¿Desea continuar agregando canciones?si/no" << endl;
-                            if (sn=="no") {
-                                bande3 = false;
-                            }
-                        }
+                        system("cls");
+                        canciones.clear();
+                        discos.clear();
+                        lerrores.clear();
+                        lReproduccion.clear();
+                        bande1 = false;
+                        bande0 = true;
                         break;
                     case 2:
-                        while (bande4) {
+                        bande2 = true;
+                        while (bande2)
+                        {
                             system("cls");
-                            cout << "ingrese el numero de la opcion de visualizacion que desea ver" << endl;
-                            cout << "1. Nobre de la cancion" << endl;
-                            cout << "2. Nombre del artista" << endl;
-                            cout << "3. Duracion de la cancion" << endl;
-                            cin >> x2;
-                            operador->ordenar(x2);
-                            cout << "1. visualizar de distinta manera" << endl;
-                            cout << "2. Volver al menu" << endl;
-                            cin >> x3;
-                            if (x3 == 2) {
-                                bande4 = false;
+                            cout << "ingrese el numero de la opcion que desaea seleccionar" << endl;
+                            cout << "1. agregar cancion" << endl;
+                            cout << "2. ver lista de reproduccion" << endl;
+                            cout << "3. reproducion actual" << endl;
+                            cout << "4. reproducir siguiente" << endl;
+                            cout << "5. ordenar" << endl;
+                            cout << "6. salir" << endl;
+                            cin >> x1;
+                            switch (x1) {
+                            case 1:
+                                bande3 = true;
+                                while (bande3) {
+                                    operador->agregarCancion(discos, canciones, lReproduccion);
+                                    cout << "¿Desea continuar agregando canciones?si/no" << endl;
+                                    sn = "si";
+                                    cin >> sn;
+                                    if (sn == "no") {
+                                        bande3 = false;
+                                    }
+                                }
+                                break;
+                            case 2:
+                                bande4 = true;
+                                while (bande4) {
+                                    system("cls");
+                                    cout << "ingrese el numero de la opcion de visualizacion que desea ver" << endl;
+                                    cout << "1. Mostrar por defecto" << endl;
+                                    cout << "2. Nombre de la cancion" << endl;
+                                    cout << "3. Nombre del artista" << endl;
+                                    cout << "4. Duracion de la cancion" << endl;
+                                    cin >> x2;
+                                    operador->ordenar(x2, lReproduccion);
+                                    cout << "1. visualizar de distinta manera" << endl;
+                                    cout << "2. Volver al menu" << endl;
+                                    cin >> x3;
+                                    if (x3 == 2) {
+                                        bande4 = false;
+                                    }
+
+
+                                }
+                                break;
+                            case 3:
+                                operador->chowlista(lReproduccion, 5);
+                                cout << "ingrese cualquier letra para salir" << endl;
+                                cin >> out;
+
+                                break;
+                            case 4:
+                                operador->reproducirN(lReproduccion);
+                                cout << "ingrese cualquier letra para salir" << endl;
+                                cin >> out;
+                                break;
+                            case 5:
+                                cout << "esta opcion ordena de manera permanente la lista de reproducion segun la opcion seleccionada" << endl;
+                                cout << "1. Ordenar por nombre de la cancion" << endl;
+                                cout << "2. Ordenar por nombre del artista" << endl;
+                                cout << "3. Ordenar por duracion de la cancion" << endl;
+                                cin >> x4;
+                                switch (x4) {
+                                case 1:
+                                    cout << "¿En que direccion desea ordenar la lista de reproduccion?" << endl;
+                                    cout << "1. Acendente" << endl;
+                                    cout << "2. Desendente" << endl;
+                                    cin >> x5;
+
+                                    switch (x5)
+                                    {
+                                    case 1:
+                                        operador->ordenPA(1, lReproduccion);
+                                        cout << "ingrese cualquier letra para salir" << endl;
+                                        cin >> out;
+                                        break;
+                                    case 2:
+                                        operador->ordenPD(1, lReproduccion);
+                                        cout << "ingrese cualquier letra para salir" << endl;
+                                        cin >> out;
+                                        break;
+                                    }
+                                    break;
+                                case 2:
+                                    cout << "¿En que direccion desea ordenar la lista de reproduccion?" << endl;
+                                    cout << "1. Acendente" << endl;
+                                    cout << "2. Desendente" << endl;
+                                    cin >> x5;
+                                    switch (x5)
+                                    {
+                                    case 1:
+                                        operador->ordenPA(2, lReproduccion);
+                                        cout << "ingrese cualquier letra para salir" << endl;
+                                        cin >> out;
+                                        break;
+                                    case 2:
+                                        operador->ordenPD(2, lReproduccion);
+                                        cout << "ingrese cualquier letra para salir" << endl;
+                                        cin >> out;
+                                        break;
+                                    }
+                                    break;
+                                case 3:
+                                    cout << "¿En que direccion desea ordenar la lista de reproduccion?" << endl;
+                                    cout << "1. Acendente" << endl;
+                                    cout << "2. Desendente" << endl;
+                                    cin >> x5;
+                                    switch (x5)
+                                    {
+                                    case 1:
+                                        operador->ordenPA(3, lReproduccion);
+                                        cout << "ingrese cualquier letra para salir" << endl;
+                                        cin >> out;
+                                        break;
+                                    case 2:
+                                        operador->ordenPD(3, lReproduccion);
+                                        cout << "ingrese cualquier letra para salir" << endl;
+                                        cin >> out;
+                                        break;
+                                    }
+                                    break;
+                                }
+
+
+                                break;
+                            case 6:
+                                bande2 = false;
+                                break;
                             }
 
 
                         }
+
                         break;
                     case 3:
-                        operador->chowlista(operador->listaReproduccion, 5);
+                        operador->muetraerrores(lerrores);
                         cout << "ingrese cualquier letra para salir" << endl;
                         cin >> out;
-
                         break;
                     case 4:
-                        operador->reproducirN();
-                        cout << "ingrese cualquier letra para salir" << endl;
-                        cin >> out;
+                        bande1 = false;
+                    default:
                         break;
-                    case 5:
-                        cout << "esta opcion ordena de manera permanente la lista de reproducion segun la opcion seleccionada" << endl;
-                        cout << "1. Ordenar por nombre de la cancion" << endl;
-                        cout << "2. Ordenar por nombre del artista" << endl;
-                        cout << "3. Ordenar por duracion de la cancion" << endl;
-                        cin >> x4;
-                        switch (x4) {
-                        case 1:
-                            cout << "¿En que direccion desea ordenar la lista de reproduccion?" << endl;
-                            cout << "1. Acendente" << endl;
-                            cout << "2. Desendente" << endl;
-                            cin >> x5;
 
-                            switch (x5)
-                            {
-                            case 1:
-                                operador->ordenPA(1);
-                                cout << "ingrese cualquier letra para salir" << endl;
-                                cin >> out;
-                                break;
-                            case 2:
-                                operador->ordenPD(1);
-                                cout << "ingrese cualquier letra para salir" << endl;
-                                cin >> out;
-                                break;
-                            }
-                            break;
-                        case 2:
-                            cout << "¿En que direccion desea ordenar la lista de reproduccion?" << endl;
-                            cout << "1. Acendente" << endl;
-                            cout << "2. Desendente" << endl;
-                            cin >> x5;
-                            switch (x5)
-                            {
-                            case 1:
-                                operador->ordenPA(2);
-                                cout << "ingrese cualquier letra para salir" << endl;
-                                cin >> out;
-                                break;
-                            case 2:
-                                operador->ordenPD(2);
-                                cout << "ingrese cualquier letra para salir" << endl;
-                                cin >> out;
-                                break;
-                            }
-                            break;
-                        case 3:
-                            cout << "¿En que direccion desea ordenar la lista de reproduccion?" << endl;
-                            cout << "1. Acendente" << endl;
-                            cout << "2. Desendente" << endl;
-                            cin >> x5;
-                            switch (x5)
-                            {
-                            case 1:
-                                operador->ordenPA(3);
-                                cout << "ingrese cualquier letra para salir" << endl;
-                                cin >> out;
-                                break;
-                            case 2:
-                                operador->ordenPD(3);
-                                cout << "ingrese cualquier letra para salir" << endl;
-                                cin >> out;
-                                break;
-                            }
-                            break;
-                        }
-
-
-                        break;
-                    case 6:
-                        bande2 = false;
-                        break;
                     }
-
                 }
-                break;
-            }
 
+            }
         }
-}
+    }
 
    
-    system("cls");
    
 }
 

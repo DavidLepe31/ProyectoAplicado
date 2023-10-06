@@ -1,4 +1,5 @@
-Shape of You||Ed Sheeran||3:53
+Shape of You;Ed Sheeran||3:53
+
 Bohemian Rhapsody||Queen||5:55
 Billie Jean||Michael Jackson||4:54
 Rolling in the Deep||Adele||3:48

@@ -1,16 +1,23 @@
 #include "adminCD.h"
-void adminCD::ArchivosL(string carpeta) {
+//funcion que lee los archivos dentro de una carpeta
+void adminCD::ArchivosL(string carpeta, vector<string>&lerrores, vector<CD*>&canciones, vector<ALBUM*>&discos, int *cdscount) {
 	struct dirent* d;
 	DIR* dr;
 	int count4=0;
-	dr = opendir("C:\\Users\\dalco\\OneDrive\\Escritorio\\ProyectoAplicado\\pruebas1");
-
+	//enviando direccion de la carpeta dada por el usuario.
+	const char* ccarpeta = carpeta.c_str();
+	cdscount = 0;
+	//abriendo la carpeta
+	dr = opendir(ccarpeta);
+	//validando que no se encuentre vacio.
 	if (dr != NULL)
 	{
-		
+		//lee la carpeta linea por linea
 		while ((d = readdir(dr)) != NULL) {
 			if (count4 != 0 && count4 != 1) {
-				llenarCDS(carpeta, d->d_name);
+				//llamando a la funcion que lee el archivo txt encontrado 
+				llenarCDS(carpeta, d->d_name,lerrores,canciones,discos, cdscount);
+				
 			}
 			count4++;
 		}
@@ -18,93 +25,153 @@ void adminCD::ArchivosL(string carpeta) {
 		closedir(dr);
 	}
 	else
-		cout << "\nError Occurred!";
+		lerrores.push_back("Error en la carpeta indicada " + carpeta);
 	cout << endl;
 }
-void adminCD::llenarCDS(string adress,string nombre) {
+//funcion que crea una lista sobre las canciones encontradas en el archivo txt
+void adminCD::llenarCDS(string adress,string nombre, vector<string> &lerrores, vector<CD*> &canciones, vector<ALBUM*> &discos, int *cdscount) {
 	//asignando direccion de archivo
 	string archivotxt;
+	string nalbum;
+
 	archivotxt = adress + "\\" + nombre;
 
 	//abriendo el archivo
 	ifstream file(archivotxt);
-	string album=nombre;//pendiente de implementear codigo que extraiga el nombre
 	string strline = "";
 	
-	CD* prueba1 = new CD();
-	int fpos;
+	ALBUM* tmpDiscos = new ALBUM();
+	
 	int i;
 	int col;
 	int psn=0;
 	int ibande = 0;
+	int vcol = 0;
+	int cdcount = 0;
+	int xbusca = 0;
+	int j = 0;
 	string strparte = "";
-	prueba1->inicio= lineCount;//alamenando donde inicia el disco
-	
+	string csep = "||";
+	string strlinet="";
+
+	//obtenemos el nombre del album sin la extensión del archivo
+	size_t csep_pos = nombre.find(".");
+	if (csep_pos != string::npos)
+	{
+		tmpDiscos->nombreDelCD = nombre.substr(0, csep_pos);
+	}
+	else
+		tmpDiscos->nombreDelCD = nombre;
+	//guardando en	que parte del vector se encuentra este txt
+	tmpDiscos->inicio = lineCount;
+		
+// validadno que no este cerrado el archivo
 	while (!file.eof()) {
-		CD* tmpCanciones = new CD();
 		getline(file, strline);
-		fpos = 0;
 		i = 0;
 		col = 0;
-
+		vcol = 0;
+		CD* tmpCanciones = new CD();
 		//buscar el ||
-		while (i <= strline.size()) {
+		if (strline.size()<=0)
+			//validando errores
+			lerrores.push_back("Fila vacía " + to_string(cdcount) + " del album " + nombre);
+		else {
+			size_t csep_pos = strline.find(csep);
+			if (csep_pos != string::npos)
+			{
+				//asignando el parametro corespondiente segun lo encontrado
+				tmpCanciones->nombre = strline.substr(0, csep_pos);
 
-			//entonces si es un | o el final del archivo
-			if ((strline[i] == '|') || (i == (strline.size()))) {
-
-				//guardamos la informacion
-				strparte = strline.substr(fpos, i - fpos);
-				switch (col)
+				strlinet = strline.substr(csep_pos + 2, strline.size() - csep_pos);
+				csep_pos = strlinet.find(csep);
+				if (csep_pos != string::npos)
 				{
-				case 0:
-					tmpCanciones->nombre = strparte;
-					break;
-				case 1:
-					tmpCanciones->artista = strparte;
-					break;
-				case 2:
-				
-					tmpCanciones->duracion = strparte;
-
-					//buscamos los : en duracion
-					ibande = 0;
-					psn = 0;
-					while (ibande == 0 && psn <= strparte.size())
+					tmpCanciones->artista = strlinet.substr(0, csep_pos);
+					if (tmpCanciones->artista.empty())
 					{
-						if (strparte[psn] == ':')
-							ibande = 1;
-						++psn;
+						lerrores.push_back("No hay datos de Artista en el album "+nombre+" linea "+ to_string(cdcount));
 					}
+					else {
+						strparte = strlinet.substr(csep_pos + 2, strlinet.size() - csep_pos);
+						tmpCanciones->duracion = strparte;
+						if (strparte.empty())
+						{
+							lerrores.push_back("No hay datos en la duracion  en el album " + nombre + " linea " + to_string(cdcount));
+						}
+						else
+						{
+							csep_pos = strparte.find(":");
+							if (csep_pos != string::npos)
+							{
+								tmpCanciones->duracionS = stoi(strparte.substr(0, csep_pos)) * 60 + stoi(strparte.substr(csep_pos + 1, strparte.size()));
+							}
 
-					//convertimos a segundos
-					tmpCanciones->duracionS = stoi(strparte.substr(0, psn)) * 60 + stoi(strparte.substr(psn + 1, strparte.size()));
-				
-					break;
+						}
+					}
 				}
-				fpos= i + 2;
-				++i;
-				++col;
+				else
+				{
+					tmpCanciones->artista = strlinet;
+					tmpCanciones->duracion = "";
+					//guardadno todos los datos de errores
+					if (tmpCanciones->artista.empty())
+					{
+						lerrores.push_back("No hay datos de Artista  en el album " + nombre + " linea " + to_string(cdcount));
+						lerrores.push_back("No hay datos en la duracion en el album " + nombre + " linea " + to_string(cdcount));
+					}
+					else
+					{
+						lerrores.push_back("No hay datos en la duracion en el album " + nombre + " linea " + to_string(cdcount));
+					}
+					
+				}
+				//guardando parametros del album
+				tmpCanciones->nombreDelCD = tmpDiscos->nombreDelCD;
+				string strnombre;
+				string strartista;
+				strnombre = tmpCanciones->nombre;
+				strartista = tmpCanciones->artista;
+				xbusca = 0;
+				j = 0;
+				//validando que no este vacio
+				if (canciones.size() > 0)
+				{
+					while (xbusca == 0)
+					{
+						if (j >= canciones.size())
+							break;
+						else
+						{
+							if (canciones[j]->nombre == strnombre && canciones[j]->artista == strartista)
+								xbusca = 1;
+						}
+						++j;
+					}
+				}
+				if (xbusca == 0)
+				{
+					canciones.push_back(tmpCanciones);
+					++cdcount;
+				}
+				else
+					lerrores.push_back("Cancion repetida en el album " + tmpDiscos->nombreDelCD + " " + tmpCanciones->nombre);
 			}
-			++i;
 		}
-		canciones.push_back(tmpCanciones);
+		//++lineCount;
 		
-		lineCount++;
-		
+	} 
+	if (lineCount == 0)
+	{
+		tmpDiscos->final = lineCount + cdcount - 1;
 	}
+	else
+	{
+		tmpDiscos->final = lineCount - 1 + cdcount;
+	}
+	lineCount += cdcount;
+	discos.push_back(tmpDiscos);
 	
 	
-	prueba1->nombreDelCD = album;
-	prueba1->final = lineCount;
-	
-
-	//almacenando el nombre del disco y donde termina
-	
-	
-	discos.push_back(prueba1);
-	cdscount++;
-	
-	
-
 }
+
