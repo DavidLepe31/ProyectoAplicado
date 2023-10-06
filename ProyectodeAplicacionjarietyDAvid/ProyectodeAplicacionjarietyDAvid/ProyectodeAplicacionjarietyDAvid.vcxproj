@@ -137,6 +137,7 @@
     <ClInclude Include="adminCD.h" />
     <ClInclude Include="CD.h" />
     <ClInclude Include="cola.h" />
+    <ClInclude Include="dirent.h" />
     <ClInclude Include="mostrar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

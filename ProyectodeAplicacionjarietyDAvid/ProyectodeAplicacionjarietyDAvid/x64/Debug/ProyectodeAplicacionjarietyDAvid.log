@@ -1,4 +1,8 @@
-﻿  mostrar.cpp
-C:\tmppruebas\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\mostrar.cpp(123,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\tmppruebas\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\mostrar.cpp(223,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  ProyectodeAplicacionjarietyDAvid.vcxproj -> C:\tmppruebas\ProyectodeAplicacionjarietyDAvid\x64\Debug\ProyectodeAplicacionjarietyDAvid.exe
+﻿  adminCD.cpp
+  mostrar.cpp
+C:\Users\dalco\OneDrive\Escritorio\ProyectoAplicado\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\mostrar.cpp(120,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\dalco\OneDrive\Escritorio\ProyectoAplicado\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\mostrar.cpp(221,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  ProyectodeAplicacionjarietyDAvid.cpp
+C:\Users\dalco\OneDrive\Escritorio\ProyectoAplicado\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid\ProyectodeAplicacionjarietyDAvid.cpp(22,31): warning C4101: 'v': unreferenced local variable
+  Generating Code...
+  ProyectodeAplicacionjarietyDAvid.vcxproj -> C:\Users\dalco\OneDrive\Escritorio\ProyectoAplicado\ProyectodeAplicacionjarietyDAvid\x64\Debug\ProyectodeAplicacionjarietyDAvid.exe
